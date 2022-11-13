@@ -1,8 +1,13 @@
+from KernelFactory import KernelFactory
+
 
 class Image:
 
     def __init__(self):
         self.pixels = [[]]
+
+    def set_pixels(self, pixels):
+        self.pixels = pixels
 
     def readFromFile(self, filename):
         file = open(filename, "r")
@@ -15,15 +20,16 @@ class Image:
 
         w_and_h = extract_width_and_height(lines[1])
 
-        self.pixels = [[lines[x] for x in range(3, len(lines))] for y in range(w_and_h[1])]
+        self.pixels = [[0 for x in range(w_and_h[0])] for y in range(w_and_h[1])]
+        # from https://stackoverflow.com/questions/6667201/how-to-define-a-two-dimensional-array
 
-        for p in self.pixels:
-            for t in p:
-                if t == 255:
-                    print()
+        k = 2
 
+        for i in range(len(self.pixels)):
+            for j in range(len(self.pixels[0])):
+                self.pixels[i][j] = lines[k]
+                k = k + 1
 
-        print(self.pixels)
 
         return self.pixels
 
@@ -31,20 +37,33 @@ class Image:
 
         file = open(filename, "w")
 
-        #print(len(self.pixels[0]))
 
-
-        file.writelines(["P2\n", f"{len(self.pixels)} {len(self.pixels[0])}\n", "255\n"])
+        file.writelines(["P2\n", f"{len(self.pixels[0])} {len(self.pixels)}\n", "255\n"])
 
         for l in self.pixels:
-            #print(l)
             for p in l:
-                #print(p)
-                file.write(p)
+                file.write(str(p))
                 file.write("\n")
 
 
+    def convolve(self):#, kernel, border_behavior):
 
+
+        filtered_pixels = [[0 for x in range(len(self.pixels[0]))] for y in range(len(self.pixels))]
+
+
+        kernel = KernelFactory().createBoxFilter(5)
+
+        for width, rows in enumerate(self.pixels):
+            for height, p in enumerate(rows):
+                filtered_pixels[width][height] = kernel.get_pixel_value(height, width, self.pixels)
+
+
+        test = Image()
+        test.set_pixels(filtered_pixels)
+        test.writeToFile("convolveImage.pgm")
+
+        pass
 
 
 def remove_comments(content):

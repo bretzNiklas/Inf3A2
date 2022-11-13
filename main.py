@@ -2,5 +2,6 @@ from Image import Image
 
 d = Image()
 
-d.readFromFile("Bild1.pgm")
-
+d.readFromFile("Bild2.pgm")
+d.writeToFile("wahre_ausgabe.pgm")
+d.convolve()
