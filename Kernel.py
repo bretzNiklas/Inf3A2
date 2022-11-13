@@ -1,40 +1,34 @@
-class KernelFactory:
+class Kernel:
 
-    @staticmethod
-    def createVerticalPrewittKernel():
-        return [-1, -1, -1, 0, 0, 0, 1, 1, 1]
-
-
-    @staticmethod
-    def createHorizontalPrewittKernel():
-        return [-1, 0, 1, -1, 0, 1, -1, 0, 1]
-
-    @staticmethod
-    def createBoxFilter(radius):
-
-        dimension = ((2 * radius) + 1) ** 2
-
-        return [1/dimension for x in range(dimension)]
-
- #       class BoxFilter:
-#
- #           def __init__(self, radius):
-  #              self.radius = radius
-#
- #               dimension = ((2 * radius) + 1) ** 2
-#
- #               self.filter_list = [1/dimension for x in range(dimension)]
-#
-#
- #           def get_pixel_value(self, h, w, pixel_matrix):
-#
- #               return pixel_value_logic(h, w, pixel_matrix, self.filter_list, self.radius)
-
-  #      return BoxFilter(radius_param)
+    def __init__(self, filter_list):
+        self.radius = 1
+        self.filter_list = filter_list
+        pass
 
 
+    def get_pixel_value(self, w, h, pixel_matrix, border_behavior):
+        radius = 1
 
-def pixel_value_logic(w, h, pixel_matrix, filter_list, radius):
+        t = border_behavior.getPixelValue([h, w], pixel_matrix)
+        #t = get_submatrix(pixel_matrix, [h, w], radius)
+
+        erg = 0
+
+        for a, b in zip(self.filter_list, t):
+
+            if type(b) == type("hallo"):
+                b = int(b)
+
+            erg = erg + (a * b)
+
+        return erg
+
+
+        #return pixel_value_logic(w, h, pixel_matrix, self.filter_list)
+
+'''def pixel_value_logic(w, h, pixel_matrix, filter_list):
+
+    radius = 1
 
     t = get_submatrix(pixel_matrix, [h, w], radius)
 
@@ -47,7 +41,7 @@ def pixel_value_logic(w, h, pixel_matrix, filter_list, radius):
 
         erg = erg + (a*b)
 
-    return erg
+    return erg'''
 
 
 def get_submatrix(matrix, point, radius=1):
@@ -65,9 +59,7 @@ def get_submatrix(matrix, point, radius=1):
                 submatrix_as_list.append(matrix[j][i])
         print()
 
-
     return submatrix_as_list
-
 
 def check_if_oob(point, matrix):
     if point[0] < 0 or point[1] < 0:
@@ -76,5 +68,4 @@ def check_if_oob(point, matrix):
     if point[0] > len(matrix) - 1 or point[1] > len(matrix[0]) - 1:
         return True
     return False
-
 

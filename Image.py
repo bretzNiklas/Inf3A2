@@ -46,22 +46,22 @@ class Image:
                 file.write("\n")
 
 
-    def convolve(self):#, kernel, border_behavior):
+    def convolve(self, kernel, border_behavor):
 
 
         filtered_pixels = [[0 for x in range(len(self.pixels[0]))] for y in range(len(self.pixels))]
 
 
-        kernel = KernelFactory().createBoxFilter(5)
+        #kernel = KernelFactory().createBoxFilter(5)
 
         for width, rows in enumerate(self.pixels):
             for height, p in enumerate(rows):
-                filtered_pixels[width][height] = kernel.get_pixel_value(height, width, self.pixels)
+                filtered_pixels[width][height] = kernel.get_pixel_value(height, width, self.pixels, border_behavor)
 
 
         test = Image()
         test.set_pixels(filtered_pixels)
-        test.writeToFile("convolveImage.pgm")
+        test.writeToFile("horizontalerPrewittFilter.pgm")
 
         pass
 
