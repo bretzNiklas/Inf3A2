@@ -3,10 +3,7 @@ from BorderBehavior import BorderBehavior
 
 class ZeroPaddingBorderBehavior(BorderBehavior):
 
-    def getPixelValue(self, point, matrix):
-        radius = 1
-
-        #print(matrix[point[0]][point[1]])
+    def get_submatrix_list(self, point, matrix, radius = 1):
 
         submatrix_as_list = []
 
@@ -23,11 +20,6 @@ class ZeroPaddingBorderBehavior(BorderBehavior):
         return submatrix_as_list
 
 
-    @staticmethod
-    def check_if_oob(point, matrix):
-        if point[0] < 0 or point[1] < 0:
-            return True
-
-        if point[0] > len(matrix) - 1 or point[1] > len(matrix[0]) - 1:
-            return True
-        return False
+    @classmethod
+    def check_if_oob(cls, point, matrix):
+        return super().check_if_oob(point, matrix)

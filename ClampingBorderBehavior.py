@@ -1,11 +1,12 @@
+import icontract
+
 from BorderBehavior import BorderBehavior
 
 
 class ClampingPaddingBorderBehavior(BorderBehavior):
 
-
-    def getPixelValue(self, point, matrix, radius = 1):
-        #radius = 1
+    @icontract.ensure(lambda radius: radius > 0, "radius must be 1 or more")
+    def get_submatrix_list(self, point, matrix, radius = 1):
         submatrix_as_list = []
 
         for j in range(point[0] - radius, point[0] + radius + 1):
@@ -48,25 +49,12 @@ class ClampingPaddingBorderBehavior(BorderBehavior):
                         submatrix_as_list.append(matrix[j - 1][i])
                         #print(f" {matrix[j - 1][i]}", end="")
 
-                    # else:
-                    #   submatrix_as_list.append(0)
-                    #   print()
-                    #  print(f"j ist {j}, i ist{i}", end="")
-                    #  print()
-
                 else:
-                    #print(f" {matrix[j][i]}", end="")
                     submatrix_as_list.append(matrix[j][i])
-            #print()
 
         return submatrix_as_list
 
 
-    @staticmethod
-    def check_if_oob(point, matrix):
-        if point[0] < 0 or point[1] < 0:
-            return True
-
-        if point[0] > len(matrix) - 1 or point[1] > len(matrix[0]) - 1:
-            return True
-        return False
+    @classmethod
+    def check_if_oob(cls, point, matrix):
+        return super().check_if_oob(point, matrix)

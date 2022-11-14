@@ -1,29 +1,35 @@
-from KernelFactory import KernelFactory
+import icontract
 
-
+@icontract.invariant(lambda self: self.magic_number_is_correct is True)
 class Image:
 
+    PGM_PIXEL_OFFSET = 2
+    PGM_FILE_EXTENSION = ".pgm"
+
     def __init__(self):
+
+        self.magic_number_is_correct = True
         self.pixels = [[]]
 
+    @icontract.require(lambda pixels: len(pixels) >= 4)
     def set_pixels(self, pixels):
         self.pixels = pixels
 
+    @icontract.require(lambda filename: filename.endswith(Image.PGM_FILE_EXTENSION), "provided filename should be in .pgm format")
     def readFromFile(self, filename):
         file = open(filename, "r")
         content = file.readlines()
         content = Image.remove_comments(content)
         lines = Image.trim_lines(content)
 
-        if not Image.check_for_magic_number(lines):
-            print("magic number missing")
+        self.magic_number_is_correct = Image.check_for_magic_number(lines)
 
         w_and_h = Image.extract_width_and_height(lines[1])
 
         self.pixels = [[0 for x in range(w_and_h[0])] for y in range(w_and_h[1])]
-        # from https://stackoverflow.com/questions/6667201/how-to-define-a-two-dimensional-array
+        #initalizing this way is from https://stackoverflow.com/questions/6667201/how-to-define-a-two-dimensional-array
 
-        k = 2
+        k = Image.PGM_PIXEL_OFFSET
 
         for i in range(len(self.pixels)):
             for j in range(len(self.pixels[0])):
@@ -33,7 +39,8 @@ class Image:
 
         return self.pixels
 
-    def writeToFile(self, filename):
+    @icontract.require(lambda filename: filename.endswith(Image.PGM_FILE_EXTENSION), "filename should end with .pgm")
+    def write_to_file(self, filename):
 
         file = open(filename, "w")
 
@@ -46,14 +53,11 @@ class Image:
                 file.write("\n")
 
 
+    @icontract.require(lambda output_filename: output_filename.endswith(Image.PGM_FILE_EXTENSION), "desired filename should end with .pgm")
     def convolve(self, kernel, border_behavior, output_filename):
-        print(type(border_behavior))
-
 
         filtered_pixels = [[0 for x in range(len(self.pixels[0]))] for y in range(len(self.pixels))]
 
-
-        #kernel = KernelFactory().createBoxFilter(5)
 
         for width, rows in enumerate(self.pixels):
             for height, p in enumerate(rows):
@@ -63,9 +67,7 @@ class Image:
 
         test = Image()
         test.set_pixels(filtered_pixels)
-        test.writeToFile(output_filename)
-
-        pass
+        test.write_to_file(output_filename)
 
     @staticmethod
     def remove_comments(content):
