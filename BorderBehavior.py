@@ -12,6 +12,7 @@ class BorderBehavior:
     def get_submatrix_list(self, point, matrix, radius = 1):
         return
 
+    #point and matrix are given, returned boolean signals if the provided point is out of bounds
     @classmethod
     def check_if_oob(cls, point, matrix):
         if point[0] < 0 or point[1] < 0:

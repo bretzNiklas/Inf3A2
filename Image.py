@@ -7,7 +7,6 @@ class Image:
     PGM_FILE_EXTENSION = ".pgm"
 
     def __init__(self):
-
         self.magic_number_is_correct = True
         self.pixels = [[]]
 
@@ -52,22 +51,25 @@ class Image:
                 file.write(str(p))
                 file.write("\n")
 
-
+    #initializes a new 2d matrix in which the filtered image gets stored
+    #after this the method gets the pixel values by using the kernel method get_pixel_value
     @icontract.require(lambda output_filename: output_filename.endswith(Image.PGM_FILE_EXTENSION), "desired filename should end with .pgm")
     def convolve(self, kernel, border_behavior, output_filename):
 
         filtered_pixels = [[0 for x in range(len(self.pixels[0]))] for y in range(len(self.pixels))]
 
 
-        for width, rows in enumerate(self.pixels):
-            for height, p in enumerate(rows):
-                temp = kernel.get_pixel_value(height, width, self.pixels, border_behavior)
-                filtered_pixels[width][height] = Image.get_value_in_range(temp)
+        for height, rows in enumerate(self.pixels):
+            for width, p in enumerate(rows):
+                temp = int(kernel.get_pixel_value(height, width, self.pixels, border_behavior))
+                filtered_pixels[height][width] = Image.get_value_in_range(temp)
+
 
 
         test = Image()
         test.set_pixels(filtered_pixels)
         test.write_to_file(output_filename)
+
 
     @staticmethod
     def remove_comments(content):
@@ -103,3 +105,8 @@ class Image:
         if value > 255:
             return 255
         return value
+
+'''        for width, rows in enumerate(self.pixels):
+            for height, p in enumerate(rows):
+                temp = int(kernel.get_pixel_value(height, width, self.pixels, border_behavior))
+                filtered_pixels[width][height] = Image.get_value_in_range(temp)'''

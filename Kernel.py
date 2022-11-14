@@ -6,17 +6,17 @@ class Kernel:
         pass
 
 
-    def get_pixel_value(self, w, h, pixel_matrix, border_behavior):
-        radius = 1
+    #method gets the point for which to compute the filtered value, the image as 2d array and a border_behavior object
+    #the border_behavior.get_submatrix_list method returns the submatrix of the values around the given point as list
+    #the returned list is multiplied entry by entry with the given filter_list
+    #the result of this multiplication is the value of the given point with the filter applied
+    def get_pixel_value(self, height, width, matrix, border_behavior):
+        sub_matrix = border_behavior.get_submatrix_list([height, width], matrix)
+        result = 0
 
-        t = border_behavior.get_submatrix_list([h, w], pixel_matrix)
-
-
-        erg = 0
-
-        for a, b in zip(self.filter_list, t):
+        for a, b in zip(self.filter_list, sub_matrix):
             if type(b) == type("string"):
                 b = int(b)
-            erg = erg + (a * b)
+            result = result + (a * b)
 
-        return erg
+        return result

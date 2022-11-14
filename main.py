@@ -4,7 +4,8 @@ from KernelFactory import KernelFactory
 from ZeroPaddingBorderBehavior import ZeroPaddingBorderBehavior
 from ClampingBorderBehavior import ClampingPaddingBorderBehavior
 
-if __name__ == "__main__":
+
+def aufgabe1():
     d = Image()
     d.readFromFile("Bild1.pgm")
 
@@ -18,9 +19,12 @@ if __name__ == "__main__":
     d.convolve(horizontal_pk, zero_p_bb, "./images/Ergebnis1-horizontal(zero-padding).pgm")
     d.convolve(horizontal_pk, clamping_p_bb, "./images/Ergebnis1-horizontal(clamping-padding).pgm")
 
-
     d.convolve(vertical_pk, zero_p_bb, "./images/Ergebnis1-vertical(zero-padding).pgm")
     d.convolve(vertical_pk, clamping_p_bb, "./images/Ergebnis1-vertical(clamping-padding).pgm")
+
+def aufgabe2():
+    zero_p_bb = ZeroPaddingBorderBehavior()
+    clamping_p_bb = ClampingPaddingBorderBehavior()
 
     e = Image()
     e.readFromFile("Bild2.pgm")
@@ -31,3 +35,9 @@ if __name__ == "__main__":
     e.convolve(boxfilter_3, clamping_p_bb, "./images/Ergebnis2-3(clamping_p_bb).pgm")
     e.convolve(boxfilter_11, clamping_p_bb, "./images/Ergebnis2-11.pgm")
     e.convolve(boxfilter_27, zero_p_bb, "./images/Ergebnis2-27.pgm")
+
+
+
+if __name__ == "__main__":
+    aufgabe1()
+    aufgabe2()

@@ -1,5 +1,6 @@
 import icontract
 
+#class returns kernel matrices list
 class KernelFactory:
 
     @staticmethod
