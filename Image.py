@@ -35,6 +35,7 @@ class Image:
                 self.pixels[i][j] = lines[k]
                 k = k + 1
 
+        print(f"File {filename} has been read")
 
         return self.pixels
 
@@ -42,6 +43,7 @@ class Image:
     def write_to_file(self, filename):
 
         file = open(filename, "w")
+
 
 
         file.writelines(["P2\n", f"{len(self.pixels[0])} {len(self.pixels)}\n", "255\n"])
@@ -69,6 +71,7 @@ class Image:
         test = Image()
         test.set_pixels(filtered_pixels)
         test.write_to_file(output_filename)
+        print(f"File {output_filename} has been created!")
 
 
     @staticmethod

@@ -17,6 +17,4 @@ class KernelFactory:
     def createBoxFilter(radius):
         dimension = ((2 * radius) + 1) ** 2
 
-        print(radius, dimension)
-
         return [1 / dimension for _ in range(dimension)]
