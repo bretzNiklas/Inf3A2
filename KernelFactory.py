@@ -12,7 +12,10 @@ class KernelFactory:
     @staticmethod
     def createBoxFilter(radius):
 
+
         dimension = ((2 * radius) + 1) ** 2
+
+        print(radius, dimension)
 
         return [1/dimension for x in range(dimension)]
 
@@ -34,7 +37,7 @@ class KernelFactory:
 
 
 
-def pixel_value_logic(w, h, pixel_matrix, filter_list, radius):
+'''def pixel_value_logic(w, h, pixel_matrix, filter_list, radius):
 
     t = get_submatrix(pixel_matrix, [h, w], radius)
 
@@ -78,3 +81,4 @@ def check_if_oob(point, matrix):
     return False
 
 
+'''

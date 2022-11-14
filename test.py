@@ -17,7 +17,6 @@ def get_submatrix(matrix, point, radius=1):
         for i in range(point[1] - radius, point[1] + radius + 1):
             if check_if_oob([j, i], matrix):
 
-
                 #oob oben links
                 if j == -1 and i == -1:
                     submatrix_as_list.append(matrix[j+1][i+1])
@@ -61,7 +60,6 @@ def get_submatrix(matrix, point, radius=1):
                  #   print()
                   #  print(f"j ist {j}, i ist{i}", end="")
                   #  print()
-
 
             else:
                 print(f" {matrix[j][i]}", end="")

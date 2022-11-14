@@ -6,7 +6,7 @@ class ZeroPaddingBorderBehavior(BorderBehavior):
     def getPixelValue(self, point, matrix):
         radius = 1
 
-        print(matrix[point[0]][point[1]])
+        #print(matrix[point[0]][point[1]])
 
         submatrix_as_list = []
 
@@ -14,11 +14,11 @@ class ZeroPaddingBorderBehavior(BorderBehavior):
             for i in range(point[1] - radius, point[1] + radius + 1):
                 if ZeroPaddingBorderBehavior.check_if_oob([j, i], matrix):
                     submatrix_as_list.append(0)
-                    print(" 0", end="")
+                    #print(" 0", end="")
                 else:
-                    print(f" {matrix[j][i]}", end="")
+                    #print(f" {matrix[j][i]}", end="")
                     submatrix_as_list.append(matrix[j][i])
-            print()
+            #print()
 
         return submatrix_as_list
 

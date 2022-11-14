@@ -1,7 +1,7 @@
 class Kernel:
 
-    def __init__(self, filter_list):
-        self.radius = 1
+    def __init__(self, filter_list, radius = 1):
+        self.radius = radius
         self.filter_list = filter_list
         pass
 
